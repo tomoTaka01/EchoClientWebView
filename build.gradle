@@ -1,0 +1,13 @@
+apply plugin: 'java'
+    
+sourceSets {
+    main {
+        output.resourcesDir = 'build/classes/main/client'
+    }
+}
+
+manifest.mainAttributes("Main-class" : "client.EchoClientWebView")
+
+task dispRes << {
+    println sourceSets.main.output.resourcesDir;
+}

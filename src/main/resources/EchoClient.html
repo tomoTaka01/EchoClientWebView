@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Echo Client</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script>
+            window.onload = function() {
+                var ws;
+                document.getElementById('open').onclick = function() {
+                     ws = new WebSocket('ws://localhost:8080/ws/echo');
+                     ws.onmessage = function(e){
+                         document.getElementById('server').innerText = e.data;
+                     };
+                     document.getElementById('state').innerText = 'opened';
+                };
+                document.getElementById('close').onclick = function() {
+                    if (ws !== undefined){
+                        ws.close();
+                        ws = undefined;
+                        document.getElementById('state').innerText = 'closed';
+                    };
+                };
+                document.getElementById('send').onclick = function() {
+                    if (ws !== undefined){
+                        var message = document.getElementById('message').value;
+                        ws.send(message);
+                        document.getElementById('message').value = '';
+                    };
+                };
+            };
+        </script>
+    </head>
+    <body>
+        <p>
+            <input type="button" id="open" value="open"/>
+            <input type="button" id="close" value="close"/>
+            <span id="state"></span>
+        </p>
+        <p>
+            <input type="text" id="message"/>
+            <input type="button" id="send" value="send"/>
+        </p>
+        <p id="server"></p>
+    </body>
+</html>
